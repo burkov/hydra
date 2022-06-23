@@ -3,6 +3,7 @@ package config
 import (
 	"context"
 	"fmt"
+	"github.com/ory/x/hashersx"
 	"net/http"
 	"net/url"
 	"strings"
@@ -46,6 +47,7 @@ const (
 	KeyDSN                                       = "dsn"
 	ViperKeyClientHTTPNoPrivateIPRanges          = "clients.http.disallow_private_ip_ranges"
 	KeyBCryptCost                                = "oauth2.hashers.bcrypt.cost"
+	KeyPKDBF2Iterations                          = "oauth2.hashers.pbkdf2 pbkdf2.iterations"
 	KeyEncryptSessionData                        = "oauth2.session.encrypt_at_rest"
 	KeyCookieSameSiteMode                        = "serve.cookies.same_site_mode"
 	KeyCookieSameSiteLegacyWorkaround            = "serve.cookies.same_site_legacy_workaround"
@@ -83,12 +85,30 @@ const (
 
 const DSNMemory = "memory"
 
+var _ hashersx.PBKDF2Configurator = (*DefaultProvider)(nil)
+var _ hashersx.BCryptConfigurator = (*DefaultProvider)(nil)
+
 type DefaultProvider struct {
 	generatedSecret []byte
 	l               *logrusx.Logger
 
 	p *configx.Provider
 	c contextx.Contextualizer
+}
+
+func (p *DefaultProvider) HasherBcryptConfig(ctx context.Context) *hashersx.BCryptConfig {
+	return &hashersx.BCryptConfig{
+		Cost: uint32(p.GetBCryptCost(ctx)),
+	}
+}
+
+func (p *DefaultProvider) HasherPBKDF2Config(ctx context.Context) *hashersx.PBKDF2Config {
+	return &hashersx.PBKDF2Config{
+		Algorithm:  "sha256",
+		Iterations: 0,
+		SaltLength: 0,
+		KeyLength:  0,
+	}
 }
 
 func MustNew(ctx context.Context, l *logrusx.Logger, opts ...configx.OptionModifier) *DefaultProvider {

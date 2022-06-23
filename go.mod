@@ -63,13 +63,13 @@ require (
 	github.com/ory/go-acc v0.2.8
 	github.com/ory/graceful v0.1.1
 	github.com/ory/herodot v0.9.13
-	github.com/ory/x v0.0.415
+	github.com/ory/x v0.0.420
 	github.com/pborman/uuid v1.2.1
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/phayes/freeport v0.0.0-20180830031419-95f893ade6f2
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.11.0
-	github.com/rs/cors v1.8.0
+	github.com/rs/cors v1.8.2
 	github.com/sawadashota/encrypta v0.0.2
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/afero v1.8.2 // indirect
@@ -78,6 +78,7 @@ require (
 	github.com/stretchr/testify v1.7.1
 	github.com/subosito/gotenv v1.3.0 // indirect
 	github.com/tidwall/gjson v1.14.0
+	github.com/tidwall/sjson v1.2.4
 	github.com/toqueteos/webbrowser v1.2.0
 	github.com/urfave/negroni v1.0.0
 	go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace v0.32.0 // indirect

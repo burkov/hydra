@@ -890,12 +890,22 @@
         "hashers": {
           "type": "object",
           "additionalProperties": false,
-          "description": "Configures hashing algorithms. Supports only BCrypt at the moment.",
+          "description": "Configures hashing algorithms. Supports only BCrypt and PKBDF2 at the moment.",
           "properties": {
+            "algorithm": {
+              "title": "Password hashing algorithm",
+              "description": "One of the values: pkdbf2, bcrypt.\n\nWarning! This value can not be changed once set as all existing OAuth 2.0 Clients will not be able to sign in any more.",
+              "type": "string",
+              "default": "pkdbf2",
+              "enum": [
+                "pkdbf2",
+                "bcrypt"
+              ]
+            },
             "bcrypt": {
               "type": "object",
               "additionalProperties": false,
-              "description": "Configures the BCrypt hashing algorithm used for hashing Client Secrets.",
+              "description": "Configures the BCrypt hashing algorithm used for hashing OAuth 2.0 Client Secrets.",
               "properties": {
                 "cost": {
                   "type": "integer",
@@ -903,6 +913,31 @@
                   "default": 10,
                   "minimum": 4,
                   "maximum": 31
+                }
+              }
+            },
+            "pkdbf2": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Configures the PKDBF2 hashing algorithm used for hashing OAuth 2.0 Client Secrets.",
+              "properties": {
+                "iterations": {
+                  "type": "integer",
+                  "description": "Sets the PKDBF2 iterations. The higher the value, the more CPU time is being used to generate hashes.",
+                  "default": 20000,
+                  "minimum": 1
+                },
+                "salt_length": {
+                  "type": "integer",
+                  "description": "Sets the PKDBF2 salt length.",
+                  "default": 32,
+                  "minimum": 16
+                },
+                "key_length": {
+                  "type": "integer",
+                  "description": "Sets the PKDBF2 hey length.",
+                  "default": 32,
+                  "minimum": 16
                 }
               }
             }
